@@ -20,9 +20,9 @@
       margin: 0;
       color: var(--ink);
       font-family: "Comic Sans MS", "Segoe Print", "Marker Felt", sans-serif;
-      background: radial-gradient(1200px 800px at 20% -10%, var(--pink-soft) 0%, transparent 60%),
-                  radial-gradient(800px 600px at 85% 10%, #e9f7ff 0%, transparent 55%),
-                  linear-gradient(180deg, #fef6ff 0%, #d9f2ff 45%, #b7e3ff 100%);
+      background: radial-gradient(1100px 800px at 15% -10%, rgba(255, 211, 234, 0.9) 0%, transparent 60%),
+                  radial-gradient(900px 700px at 90% 10%, rgba(255, 255, 255, 0.9) 0%, transparent 55%),
+                  linear-gradient(180deg, #e6f7ff 0%, #a7e0ff 45%, #58b4ff 100%);
       min-height: 100svh;
       overflow-x: hidden;
     }
@@ -31,6 +31,15 @@
       inset: 0;
       background: radial-gradient(700px 500px at 70% 80%, rgba(59, 180, 255, 0.35), transparent 60%),
                   radial-gradient(500px 400px at 20% 70%, rgba(111, 231, 255, 0.4), transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .waves {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(-8deg, rgba(255, 255, 255, 0.18) 0 12px, rgba(255, 255, 255, 0) 12px 24px);
+      opacity: 0.4;
+      mix-blend-mode: soft-light;
       pointer-events: none;
       z-index: 0;
     }
@@ -74,23 +83,6 @@
       margin: 0;
       color: #2d6fb2;
     }
-
-    .icon-row {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      margin: 14px 0 8px;
-    }
-    .icon {
-      width: 44px;
-      height: 44px;
-      background: var(--pink);
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 8px 18px rgba(255, 127, 196, 0.35);
-    }
-    .icon svg { width: 28px; height: 28px; fill: white; }
 
     .quiz-card {
       margin: 22px auto 0;
@@ -161,6 +153,19 @@
       border: 2px dashed #b8dcff;
       min-height: 44px;
     }
+    .next-btn {
+      margin-top: 10px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 999px;
+      background: var(--sea);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 18px rgba(59, 180, 255, 0.35);
+      display: none;
+    }
+    .next-btn.show { display: inline-block; }
 
     .jellyfish {
       position: absolute;
@@ -171,6 +176,22 @@
       opacity: 0.65;
       animation: drift 16s ease-in-out infinite;
       filter: blur(0.2px);
+    }
+    .jellyfish::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 70%;
+      height: 54px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.85) 0 3px,
+        rgba(255, 255, 255, 0) 3px 9px
+      );
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+      border-radius: 0 0 30px 30px;
+      filter: drop-shadow(0 4px 6px rgba(59, 180, 255, 0.25));
     }
     .jellyfish::after {
       content: "";
@@ -188,6 +209,8 @@
     .j1 { left: 4%; top: 18%; animation-delay: 0s; }
     .j2 { left: 85%; top: 24%; animation-delay: 3s; transform: scale(0.8); }
     .j3 { left: 72%; top: 58%; animation-delay: 6s; transform: scale(0.9); }
+    .j4 { left: 12%; top: 60%; animation-delay: 2s; transform: scale(0.7); }
+    .j5 { left: 92%; top: 70%; animation-delay: 5s; transform: scale(0.6); }
 
     @keyframes drift {
       0%, 100% { transform: translateY(0); }
@@ -225,6 +248,15 @@
       border-radius: 16px;
       padding: 12px;
       box-shadow: 0 12px 30px rgba(18, 99, 194, 0.2);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .video-wrap.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
     .video-wrap video { width: 100%; border-radius: 12px; }
     .play-btn {
@@ -243,18 +275,164 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 9;
+      z-index: 30;
+    }
+
+    .floating-icons {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .floating-art {
+      position: absolute;
+      width: 78px;
+      height: 64px;
+      display: block;
+      filter: drop-shadow(0 10px 18px rgba(18, 99, 194, 0.25));
+      animation: floatIcon 14s ease-in-out infinite;
+    }
+    .floating-art.a1 { left: 8%; top: 30%; animation-delay: 0s; }
+    .floating-art.a2 { left: 86%; top: 32%; animation-delay: 2s; }
+    .floating-art.a3 { left: 14%; top: 76%; animation-delay: 4s; }
+    .floating-art.a4 { left: 78%; top: 66%; animation-delay: 1s; }
+    .floating-art.a5 { left: 52%; top: 18%; animation-delay: 3s; }
+    .floating-art.a6 { left: 34%; top: 56%; animation-delay: 5s; }
+    .floating-art.a7 { left: 60%; top: 82%; animation-delay: 6s; }
+    .floating-art.a8 { left: 92%; top: 10%; animation-delay: 7s; }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-26px) rotate(4deg); }
+    }
+
+    .toy-camera .cam-body {
+      position: absolute;
+      inset: 10px 6px 6px 6px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #8ad9ff, #2f92ff);
+      box-shadow: inset 6px 6px 10px rgba(255, 255, 255, 0.55),
+                  inset -6px -6px 10px rgba(0, 0, 0, 0.12);
+    }
+    .toy-camera .cam-top {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 2px;
+      height: 18px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #ffd1ea, #ff76b8);
+      box-shadow: inset 4px 4px 8px rgba(255, 255, 255, 0.6),
+                  inset -4px -4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .toy-camera .cam-lens {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      right: 16px;
+      top: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffffff 0%, #a3f0ff 35%, #2a7fd6 70%, #1c4f8b 100%);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .toy-camera .cam-flash {
+      position: absolute;
+      width: 14px;
+      height: 10px;
+      left: 18px;
+      top: 8px;
+      border-radius: 4px;
+      background: linear-gradient(145deg, #fff5b5, #ffd86b);
+      box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.7);
+    }
+    .toy-camera .cam-button {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      left: 10px;
+      top: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .toy-castle .stone-base {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 6px;
+      height: 16px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #d6e5f5, #9db8d6);
+      box-shadow: inset 4px 4px 8px rgba(255, 255, 255, 0.6),
+                  inset -4px -4px 8px rgba(0, 0, 0, 0.12);
+    }
+    .toy-castle .keep {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      height: 34px;
+      border-radius: 10px 10px 8px 8px;
+      background: linear-gradient(145deg, #fff3fb, #ffd0ea);
+      box-shadow: inset 5px 5px 10px rgba(255, 255, 255, 0.7),
+                  inset -5px -5px 10px rgba(0, 0, 0, 0.08);
+    }
+    .toy-castle .roof {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 12px;
+      background: linear-gradient(145deg, #ff8fc8, #ff5aa9);
+      clip-path: polygon(0% 100%, 12% 0%, 88% 0%, 100% 100%);
+      border-radius: 6px;
+      box-shadow: 0 6px 10px rgba(255, 127, 196, 0.35);
+    }
+    .toy-castle .roof.bottom { width: 64px; bottom: 46px; }
+    .toy-castle .roof.middle { width: 52px; bottom: 56px; }
+    .toy-castle .roof.top { width: 40px; bottom: 66px; }
+    .toy-castle .castle-door {
+      position: absolute;
+      width: 16px;
+      height: 18px;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      border-radius: 8px 8px 6px 6px;
+      background: linear-gradient(145deg, #aee7ff, #4fb0ff);
+      box-shadow: inset 3px 3px 6px rgba(255, 255, 255, 0.6);
+    }
+    .toy-castle .keep-window {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      left: 50%;
+      top: 30px;
+      transform: translateX(-50%);
+      border-radius: 4px;
+      background: rgba(59, 180, 255, 0.6);
+    }
+    .toy-castle .castle-flag {
+      position: absolute;
+      width: 12px;
+      height: 10px;
+      left: 50%;
+      bottom: 78px;
+      transform: translateX(-50%);
+      background: linear-gradient(145deg, #fff6bf, #ffd86b);
+      border-radius: 2px 6px 6px 2px;
+      box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.6);
     }
 
     @media (max-width: 600px) {
-      .icon { width: 38px; height: 38px; }
-      .icon svg { width: 22px; height: 22px; }
       .choice-btn { font-size: 15px; }
+      .floating-art { width: 64px; height: 54px; }
     }
   </style>
 </head>
 <body>
   <div class="ocean"></div>
+  <div class="waves"></div>
   <div class="bubble b1"></div>
   <div class="bubble b2"></div>
   <div class="bubble b3"></div>
@@ -262,17 +440,81 @@
   <div class="jellyfish j1"></div>
   <div class="jellyfish j2"></div>
   <div class="jellyfish j3"></div>
+  <div class="jellyfish j4"></div>
+  <div class="jellyfish j5"></div>
+  <div class="floating-icons" aria-hidden="true">
+    <div class="floating-art toy-castle a1">
+      <div class="castle-flag"></div>
+      <div class="roof top"></div>
+      <div class="roof middle"></div>
+      <div class="roof bottom"></div>
+      <div class="keep"></div>
+      <div class="keep-window"></div>
+      <div class="castle-door"></div>
+      <div class="stone-base"></div>
+    </div>
+    <div class="floating-art toy-camera a2">
+      <div class="cam-top"></div>
+      <div class="cam-body"></div>
+      <div class="cam-lens"></div>
+      <div class="cam-flash"></div>
+      <div class="cam-button"></div>
+    </div>
+    <div class="floating-art toy-castle a3">
+      <div class="castle-flag"></div>
+      <div class="roof top"></div>
+      <div class="roof middle"></div>
+      <div class="roof bottom"></div>
+      <div class="keep"></div>
+      <div class="keep-window"></div>
+      <div class="castle-door"></div>
+      <div class="stone-base"></div>
+    </div>
+    <div class="floating-art toy-camera a4">
+      <div class="cam-top"></div>
+      <div class="cam-body"></div>
+      <div class="cam-lens"></div>
+      <div class="cam-flash"></div>
+      <div class="cam-button"></div>
+    </div>
+    <div class="floating-art toy-castle a5">
+      <div class="castle-flag"></div>
+      <div class="roof top"></div>
+      <div class="roof middle"></div>
+      <div class="roof bottom"></div>
+      <div class="keep"></div>
+      <div class="keep-window"></div>
+      <div class="castle-door"></div>
+      <div class="stone-base"></div>
+    </div>
+    <div class="floating-art toy-camera a6">
+      <div class="cam-top"></div>
+      <div class="cam-body"></div>
+      <div class="cam-lens"></div>
+      <div class="cam-flash"></div>
+      <div class="cam-button"></div>
+    </div>
+    <div class="floating-art toy-castle a7">
+      <div class="castle-flag"></div>
+      <div class="roof top"></div>
+      <div class="roof middle"></div>
+      <div class="roof bottom"></div>
+      <div class="keep"></div>
+      <div class="keep-window"></div>
+      <div class="castle-door"></div>
+      <div class="stone-base"></div>
+    </div>
+    <div class="floating-art toy-camera a8">
+      <div class="cam-top"></div>
+      <div class="cam-body"></div>
+      <div class="cam-lens"></div>
+      <div class="cam-flash"></div>
+      <div class="cam-button"></div>
+    </div>
+  </div>
 
   <main class="container">
     <header>
-      <div class="icon-row">
-        <div class="icon" aria-hidden="true">
-          <svg viewBox="0 0 64 64"><path d="M9 50h46v6H9zM13 50V24l19-12 19 12v26H13zm8-14h6v8h-6v-8zm16 0h6v8h-6v-8zM24 24h16v6H24z"/></svg>
-        </div>
-        <div class="icon" aria-hidden="true">
-          <svg viewBox="0 0 64 64"><path d="M20 20h6l4-6h10l4 6h6a6 6 0 0 1 6 6v22a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6V26a6 6 0 0 1 6-6h6zm12 6a12 12 0 1 0 .001 24.001A12 12 0 0 0 32 26zm0 6a6 6 0 1 1-.001 12.001A6 6 0 0 1 32 32z"/></svg>
-        </div>
-      </div>
       <h1 class="title">とらのすけくん おたんじょうびクイズ！</h1>
       <p class="subtitle">全問正解でお祝いメッセージが出るよ！</p>
     </header>
@@ -285,6 +527,7 @@
       <div class="question" id="questionText"></div>
       <div class="choices" id="choices"></div>
       <div class="message" id="messageArea">がんばってね！</div>
+      <button class="next-btn" id="nextBtn">つぎへ</button>
     </section>
   </main>
 
@@ -292,8 +535,8 @@
 
   <section class="celebration" id="celebration">
     <h2 class="celebrate-title">とらのすけくん 11歳おめでとう！</h2>
-    <p class="celebrate-text">長崎旅行、最高に楽しもうね！11歳の1年も素敵なカメラ日和になりますように！</p>
-    <div class="video-wrap">
+    <p class="celebrate-text">長崎旅行、最高に楽しもうね！11歳の1年も素敵な年になりますように！</p>
+    <div class="video-wrap" id="videoWrap">
       <video id="celebrationVideo" src="celebration.mp4" controls playsinline muted></video>
       <button class="play-btn" id="playBtn">動画を再生する</button>
     </div>
@@ -350,14 +593,18 @@
     const questionText = document.getElementById("questionText");
     const choicesEl = document.getElementById("choices");
     const messageArea = document.getElementById("messageArea");
+    const nextBtn = document.getElementById("nextBtn");
     const progressText = document.getElementById("progressText");
     const progressBar = document.getElementById("progressBar");
     const celebration = document.getElementById("celebration");
     const quizCard = document.getElementById("quizCard");
     const video = document.getElementById("celebrationVideo");
+    const videoWrap = document.getElementById("videoWrap");
     const playBtn = document.getElementById("playBtn");
+    let autoAdvanceTimer = null;
 
     function renderQuestion() {
+      clearTimeout(autoAdvanceTimer);
       const q = questions[current];
       questionText.textContent = q.text;
       choicesEl.innerHTML = "";
@@ -365,12 +612,30 @@
         const btn = document.createElement("button");
         btn.className = "choice-btn";
         btn.textContent = `${String.fromCharCode(65 + idx)}: ${choice}`;
+        btn.disabled = false;
         btn.addEventListener("click", () => handleAnswer(idx));
         choicesEl.appendChild(btn);
       });
       progressText.textContent = `${current + 1} / ${questions.length}`;
       progressBar.style.width = `${((current) / questions.length) * 100}%`;
       messageArea.textContent = "がんばってね！";
+      nextBtn.classList.remove("show");
+    }
+
+    function setChoicesEnabled(enabled) {
+      const btns = choicesEl.querySelectorAll("button");
+      btns.forEach((btn) => {
+        btn.disabled = !enabled;
+      });
+    }
+
+    function goNext() {
+      current += 1;
+      if (current >= questions.length) {
+        finishQuiz();
+      } else {
+        renderQuestion();
+      }
     }
 
     function handleAnswer(idx) {
@@ -378,14 +643,11 @@
       if (idx === q.answer) {
         const praiseMsg = praise[Math.floor(Math.random() * praise.length)];
         messageArea.textContent = q.explanation ? `${praiseMsg} ${q.explanation}` : praiseMsg;
-        setTimeout(() => {
-          current += 1;
-          if (current >= questions.length) {
-            finishQuiz();
-          } else {
-            renderQuestion();
-          }
-        }, 800);
+        setChoicesEnabled(false);
+        nextBtn.textContent = current === questions.length - 1 ? "お祝いへ" : "つぎへ";
+        nextBtn.classList.add("show");
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = setTimeout(goNext, 2600);
       } else {
         const cheerMsg = cheer[Math.floor(Math.random() * cheer.length)];
         messageArea.textContent = `${cheerMsg} ${q.hint}`;
@@ -396,14 +658,22 @@
       quizCard.style.display = "none";
       celebration.classList.add("show");
       startConfetti();
-      // Autoplay attempt (muted) for devices that allow it
-      video.muted = true;
-      video.play().catch(() => {});
+      setTimeout(() => {
+        videoWrap.classList.add("show");
+        // Autoplay attempt (muted) for devices that allow it
+        video.muted = true;
+        video.play().catch(() => {});
+      }, 1800);
     }
 
     playBtn.addEventListener("click", () => {
       video.muted = false;
       video.play();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      clearTimeout(autoAdvanceTimer);
+      goNext();
     });
 
     // Confetti
@@ -433,7 +703,7 @@
     }
 
     function startConfetti() {
-      confetti = Array.from({ length: 140 }, createConfettiPiece);
+      confetti = Array.from({ length: 220 }, createConfettiPiece);
       requestAnimationFrame(updateConfetti);
     }
 

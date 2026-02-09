@@ -1,0 +1,4 @@
+interface:
+  display_name: "誕生日クイズサイト"
+  short_description: "誕生日向けクイズ付き1ページサイトを作成・更新する"
+  default_prompt: "Use $birthday-quiz-site to build or update a birthday quiz one-page site."

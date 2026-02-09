@@ -300,6 +300,8 @@
     .floating-art.a6 { left: 34%; top: 56%; animation-delay: 5s; }
     .floating-art.a7 { left: 60%; top: 82%; animation-delay: 6s; }
     .floating-art.a8 { left: 92%; top: 10%; animation-delay: 7s; }
+    .floating-art.a9 { left: 6%; top: 48%; animation-delay: 1.5s; }
+    .floating-art.a10 { left: 70%; top: 40%; animation-delay: 3.5s; }
 
     @keyframes floatIcon {
       0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -356,72 +358,175 @@
       box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
 
+    .toy-castle {
+      position: relative;
+    }
     .toy-castle .stone-base {
       position: absolute;
-      left: 8px;
-      right: 8px;
-      bottom: 6px;
-      height: 16px;
-      border-radius: 10px;
-      background: linear-gradient(145deg, #d6e5f5, #9db8d6);
-      box-shadow: inset 4px 4px 8px rgba(255, 255, 255, 0.6),
-                  inset -4px -4px 8px rgba(0, 0, 0, 0.12);
+      left: 6px;
+      right: 6px;
+      bottom: 4px;
+      height: 18px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f0ddc6, #d8b79a);
+      box-shadow: inset 3px 3px 6px rgba(255, 255, 255, 0.6),
+                  inset -3px -3px 6px rgba(0, 0, 0, 0.12);
+      z-index: 1;
     }
-    .toy-castle .keep {
+    .toy-castle .stone-base::after {
+      content: "";
       position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
-      height: 34px;
-      border-radius: 10px 10px 8px 8px;
-      background: linear-gradient(145deg, #fff3fb, #ffd0ea);
-      box-shadow: inset 5px 5px 10px rgba(255, 255, 255, 0.7),
-                  inset -5px -5px 10px rgba(0, 0, 0, 0.08);
+      inset: 2px;
+      border-radius: 6px;
+      background-image:
+        linear-gradient(120deg, rgba(0, 0, 0, 0.08) 10%, transparent 10% 40%, rgba(0, 0, 0, 0.08) 40% 60%, transparent 60%),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+      background-size: 18px 10px, auto;
+      opacity: 0.7;
+    }
+    .toy-castle .wall {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 20px;
+      height: 28px;
+      border-radius: 6px 6px 4px 4px;
+      background: linear-gradient(180deg, #ffffff, #eaf0f6);
+      box-shadow: inset 0 0 0 2px rgba(45, 47, 51, 0.7),
+                  inset 0 -4px 8px rgba(0, 0, 0, 0.08);
+      z-index: 2;
+    }
+    .toy-castle .wall::after {
+      content: "";
+      position: absolute;
+      inset: 6px 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(49, 53, 60, 0.7) 0 3px,
+        transparent 3px 10px
+      );
+      opacity: 0.6;
+    }
+    .toy-castle .wall.upper {
+      left: 22px;
+      right: 22px;
+      bottom: 40px;
+      height: 18px;
     }
     .toy-castle .roof {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
       height: 12px;
-      background: linear-gradient(145deg, #ff8fc8, #ff5aa9);
+      background: linear-gradient(180deg, #5d6067 0%, #2b2d33 100%);
       clip-path: polygon(0% 100%, 12% 0%, 88% 0%, 100% 100%);
       border-radius: 6px;
-      box-shadow: 0 6px 10px rgba(255, 127, 196, 0.35);
+      box-shadow: 0 6px 10px rgba(24, 29, 36, 0.25);
+      z-index: 3;
     }
-    .toy-castle .roof.bottom { width: 64px; bottom: 46px; }
-    .toy-castle .roof.middle { width: 52px; bottom: 56px; }
-    .toy-castle .roof.top { width: 40px; bottom: 66px; }
-    .toy-castle .castle-door {
+    .toy-castle .roof::after {
+      content: "";
       position: absolute;
-      width: 16px;
-      height: 18px;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%);
-      border-radius: 8px 8px 6px 6px;
-      background: linear-gradient(145deg, #aee7ff, #4fb0ff);
-      box-shadow: inset 3px 3px 6px rgba(255, 255, 255, 0.6);
+      left: 4px;
+      right: 4px;
+      bottom: 2px;
+      height: 3px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #f7f7f7, #e6e6e6);
     }
-    .toy-castle .keep-window {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      left: 50%;
-      top: 30px;
-      transform: translateX(-50%);
-      border-radius: 4px;
-      background: rgba(59, 180, 255, 0.6);
-    }
+    .toy-castle .roof.bottom { width: 66px; bottom: 48px; }
+    .toy-castle .roof.middle { width: 54px; bottom: 58px; }
+    .toy-castle .roof.top { width: 40px; bottom: 68px; }
+    .toy-castle .roof.top::after { left: 3px; right: 3px; }
     .toy-castle .castle-flag {
       position: absolute;
-      width: 12px;
-      height: 10px;
+      width: 10px;
+      height: 8px;
       left: 50%;
-      bottom: 78px;
+      bottom: 80px;
       transform: translateX(-50%);
       background: linear-gradient(145deg, #fff6bf, #ffd86b);
       border-radius: 2px 6px 6px 2px;
       box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.6);
+      z-index: 4;
+    }
+    .toy-castle .castle-door {
+      position: absolute;
+      width: 14px;
+      height: 16px;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      border-radius: 7px 7px 5px 5px;
+      background: linear-gradient(145deg, #aee7ff, #4fb0ff);
+      box-shadow: inset 3px 3px 6px rgba(255, 255, 255, 0.6);
+      z-index: 2;
+    }
+    .toy-castle .keep-window {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      left: 50%;
+      bottom: 52px;
+      transform: translateX(-50%);
+      border-radius: 3px;
+      background: rgba(90, 120, 150, 0.6);
+      z-index: 2;
+    }
+    .toy-shachi {
+      position: relative;
+    }
+    .toy-shachi .body {
+      position: absolute;
+      left: 14px;
+      right: 8px;
+      top: 18px;
+      height: 22px;
+      border-radius: 20px 22px 16px 16px;
+      background: linear-gradient(145deg, #ffe79c, #ffb800);
+      box-shadow: inset 4px 4px 8px rgba(255, 255, 255, 0.7),
+                  inset -4px -4px 8px rgba(0, 0, 0, 0.15);
+    }
+    .toy-shachi .head {
+      position: absolute;
+      left: 4px;
+      top: 16px;
+      width: 16px;
+      height: 18px;
+      border-radius: 10px 6px 10px 8px;
+      background: linear-gradient(145deg, #fff2b7, #ffcc5c);
+      box-shadow: inset 3px 3px 6px rgba(255, 255, 255, 0.7);
+    }
+    .toy-shachi .fin {
+      position: absolute;
+      left: 22px;
+      top: 10px;
+      width: 22px;
+      height: 14px;
+      background: linear-gradient(145deg, #fff1a8, #ffc847);
+      clip-path: polygon(0% 100%, 30% 0%, 100% 40%, 70% 100%);
+      border-radius: 8px;
+      box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.6);
+    }
+    .toy-shachi .tail {
+      position: absolute;
+      right: 2px;
+      top: 10px;
+      width: 18px;
+      height: 26px;
+      background: linear-gradient(145deg, #ffe79c, #ffb800);
+      clip-path: polygon(0% 40%, 60% 0%, 100% 20%, 70% 50%, 100% 80%, 60% 100%, 0% 60%);
+      border-radius: 8px;
+      box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.6);
+    }
+    .toy-shachi .eye {
+      position: absolute;
+      left: 10px;
+      top: 22px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #5c4a1a;
     }
 
     @media (max-width: 600px) {
@@ -444,14 +549,15 @@
   <div class="jellyfish j5"></div>
   <div class="floating-icons" aria-hidden="true">
     <div class="floating-art toy-castle a1">
-      <div class="castle-flag"></div>
-      <div class="roof top"></div>
-      <div class="roof middle"></div>
+      <div class="stone-base"></div>
+      <div class="wall"></div>
+      <div class="wall upper"></div>
       <div class="roof bottom"></div>
-      <div class="keep"></div>
+      <div class="roof middle"></div>
+      <div class="roof top"></div>
+      <div class="castle-flag"></div>
       <div class="keep-window"></div>
       <div class="castle-door"></div>
-      <div class="stone-base"></div>
     </div>
     <div class="floating-art toy-camera a2">
       <div class="cam-top"></div>
@@ -461,14 +567,15 @@
       <div class="cam-button"></div>
     </div>
     <div class="floating-art toy-castle a3">
-      <div class="castle-flag"></div>
-      <div class="roof top"></div>
-      <div class="roof middle"></div>
+      <div class="stone-base"></div>
+      <div class="wall"></div>
+      <div class="wall upper"></div>
       <div class="roof bottom"></div>
-      <div class="keep"></div>
+      <div class="roof middle"></div>
+      <div class="roof top"></div>
+      <div class="castle-flag"></div>
       <div class="keep-window"></div>
       <div class="castle-door"></div>
-      <div class="stone-base"></div>
     </div>
     <div class="floating-art toy-camera a4">
       <div class="cam-top"></div>
@@ -478,14 +585,15 @@
       <div class="cam-button"></div>
     </div>
     <div class="floating-art toy-castle a5">
-      <div class="castle-flag"></div>
-      <div class="roof top"></div>
-      <div class="roof middle"></div>
+      <div class="stone-base"></div>
+      <div class="wall"></div>
+      <div class="wall upper"></div>
       <div class="roof bottom"></div>
-      <div class="keep"></div>
+      <div class="roof middle"></div>
+      <div class="roof top"></div>
+      <div class="castle-flag"></div>
       <div class="keep-window"></div>
       <div class="castle-door"></div>
-      <div class="stone-base"></div>
     </div>
     <div class="floating-art toy-camera a6">
       <div class="cam-top"></div>
@@ -495,14 +603,15 @@
       <div class="cam-button"></div>
     </div>
     <div class="floating-art toy-castle a7">
-      <div class="castle-flag"></div>
-      <div class="roof top"></div>
-      <div class="roof middle"></div>
+      <div class="stone-base"></div>
+      <div class="wall"></div>
+      <div class="wall upper"></div>
       <div class="roof bottom"></div>
-      <div class="keep"></div>
+      <div class="roof middle"></div>
+      <div class="roof top"></div>
+      <div class="castle-flag"></div>
       <div class="keep-window"></div>
       <div class="castle-door"></div>
-      <div class="stone-base"></div>
     </div>
     <div class="floating-art toy-camera a8">
       <div class="cam-top"></div>
@@ -511,11 +620,25 @@
       <div class="cam-flash"></div>
       <div class="cam-button"></div>
     </div>
+    <div class="floating-art toy-shachi a9">
+      <div class="fin"></div>
+      <div class="tail"></div>
+      <div class="body"></div>
+      <div class="head"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="floating-art toy-shachi a10">
+      <div class="fin"></div>
+      <div class="tail"></div>
+      <div class="body"></div>
+      <div class="head"></div>
+      <div class="eye"></div>
+    </div>
   </div>
 
   <main class="container">
     <header>
-      <h1 class="title">とらのすけくん おたんじょうびクイズ！</h1>
+      <h1 class="title">とらのすけくん お誕生日クイズ！</h1>
       <p class="subtitle">全問正解でお祝いメッセージが出るよ！</p>
     </header>
 

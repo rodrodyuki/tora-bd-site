@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>とらのすけくん 11歳おめでとう！クイズ</title>
+  <style>
+    :root {
+      --pink: #ff7fc4;
+      --pink-soft: #ffd3ea;
+      --sea: #3bb4ff;
+      --sea-deep: #1263c2;
+      --aqua: #6fe7ff;
+      --gold: #ffd86b;
+      --ink: #17304a;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Comic Sans MS", "Segoe Print", "Marker Felt", sans-serif;
+      background: radial-gradient(1200px 800px at 20% -10%, var(--pink-soft) 0%, transparent 60%),
+                  radial-gradient(800px 600px at 85% 10%, #e9f7ff 0%, transparent 55%),
+                  linear-gradient(180deg, #fef6ff 0%, #d9f2ff 45%, #b7e3ff 100%);
+      min-height: 100svh;
+      overflow-x: hidden;
+    }
+    .ocean {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(700px 500px at 70% 80%, rgba(59, 180, 255, 0.35), transparent 60%),
+                  radial-gradient(500px 400px at 20% 70%, rgba(111, 231, 255, 0.4), transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bubble {
+      position: absolute;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 999px;
+      opacity: 0.7;
+      animation: float 12s infinite ease-in-out;
+    }
+    .bubble.b1 { width: 80px; height: 80px; left: 6%; top: 70%; animation-delay: 0s; }
+    .bubble.b2 { width: 50px; height: 50px; left: 20%; top: 80%; animation-delay: 2s; }
+    .bubble.b3 { width: 100px; height: 100px; left: 78%; top: 75%; animation-delay: 4s; }
+    .bubble.b4 { width: 60px; height: 60px; left: 88%; top: 55%; animation-delay: 1s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-60px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 16px 80px;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 8px;
+    }
+    .title {
+      font-size: clamp(26px, 4vw, 46px);
+      margin: 8px 0 6px;
+      color: var(--sea-deep);
+      text-shadow: 0 3px 0 rgba(255, 255, 255, 0.8);
+    }
+    .subtitle {
+      font-size: clamp(14px, 2.2vw, 20px);
+      margin: 0;
+      color: #2d6fb2;
+    }
+
+    .icon-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin: 14px 0 8px;
+    }
+    .icon {
+      width: 44px;
+      height: 44px;
+      background: var(--pink);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 18px rgba(255, 127, 196, 0.35);
+    }
+    .icon svg { width: 28px; height: 28px; fill: white; }
+
+    .quiz-card {
+      margin: 22px auto 0;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 22px;
+      padding: clamp(18px, 3vw, 28px);
+      box-shadow: 0 18px 40px rgba(18, 99, 194, 0.15);
+      backdrop-filter: blur(6px);
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      color: #3a6ea5;
+      margin-bottom: 10px;
+    }
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      background: #e6f3ff;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar > div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--pink), var(--sea));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .question {
+      font-size: clamp(18px, 2.6vw, 24px);
+      margin: 12px 0 16px;
+      color: var(--ink);
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .choice-btn {
+      background: var(--pink-soft);
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 14px 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border 0.2s ease, background 0.2s ease;
+      min-height: 56px;
+    }
+    .choice-btn:hover {
+      transform: translateY(-2px) scale(1.01);
+      border-color: var(--pink);
+      background: #ffe7f3;
+    }
+
+    .message {
+      margin-top: 16px;
+      font-size: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #eef7ff;
+      border: 2px dashed #b8dcff;
+      min-height: 44px;
+    }
+
+    .jellyfish {
+      position: absolute;
+      width: 90px;
+      height: 110px;
+      border-radius: 50% 50% 45% 45%;
+      background: radial-gradient(circle at 30% 30%, #ffffff 0%, #b7f2ff 55%, rgba(59, 180, 255, 0.65) 100%);
+      opacity: 0.65;
+      animation: drift 16s ease-in-out infinite;
+      filter: blur(0.2px);
+    }
+    .jellyfish::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      width: 70px;
+      height: 40px;
+      border-left: 2px solid rgba(255, 255, 255, 0.6);
+      border-right: 2px solid rgba(255, 255, 255, 0.6);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+      transform: translateX(-50%);
+      border-radius: 0 0 30px 30px;
+    }
+    .j1 { left: 4%; top: 18%; animation-delay: 0s; }
+    .j2 { left: 85%; top: 24%; animation-delay: 3s; transform: scale(0.8); }
+    .j3 { left: 72%; top: 58%; animation-delay: 6s; transform: scale(0.9); }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-40px); }
+    }
+
+    .celebration {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(255, 217, 235, 0.85), transparent 60%),
+                  linear-gradient(180deg, rgba(255, 247, 252, 0.95) 0%, rgba(217, 242, 255, 0.98) 100%);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      z-index: 10;
+    }
+    .celebration.show { display: flex; }
+    .celebrate-title {
+      font-size: clamp(30px, 6vw, 60px);
+      color: var(--sea-deep);
+      margin: 8px 0 10px;
+    }
+    .celebrate-text {
+      font-size: clamp(16px, 2.6vw, 22px);
+      color: #2d6fb2;
+      max-width: 720px;
+    }
+    .video-wrap {
+      margin-top: 18px;
+      width: min(720px, 92vw);
+      background: white;
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 12px 30px rgba(18, 99, 194, 0.2);
+    }
+    .video-wrap video { width: 100%; border-radius: 12px; }
+    .play-btn {
+      margin-top: 12px;
+      padding: 10px 18px;
+      border: none;
+      background: var(--pink);
+      color: white;
+      font-size: 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 10px 18px rgba(255, 127, 196, 0.35);
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9;
+    }
+
+    @media (max-width: 600px) {
+      .icon { width: 38px; height: 38px; }
+      .icon svg { width: 22px; height: 22px; }
+      .choice-btn { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ocean"></div>
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+  <div class="bubble b4"></div>
+  <div class="jellyfish j1"></div>
+  <div class="jellyfish j2"></div>
+  <div class="jellyfish j3"></div>
+
+  <main class="container">
+    <header>
+      <div class="icon-row">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M9 50h46v6H9zM13 50V24l19-12 19 12v26H13zm8-14h6v8h-6v-8zm16 0h6v8h-6v-8zM24 24h16v6H24z"/></svg>
+        </div>
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M20 20h6l4-6h10l4 6h6a6 6 0 0 1 6 6v22a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6V26a6 6 0 0 1 6-6h6zm12 6a12 12 0 1 0 .001 24.001A12 12 0 0 0 32 26zm0 6a6 6 0 1 1-.001 12.001A6 6 0 0 1 32 32z"/></svg>
+        </div>
+      </div>
+      <h1 class="title">とらのすけくん おたんじょうびクイズ！</h1>
+      <p class="subtitle">全問正解でお祝いメッセージが出るよ！</p>
+    </header>
+
+    <section class="quiz-card" id="quizCard">
+      <div class="progress">
+        <span id="progressText">1 / 6</span>
+        <div class="progress-bar"><div id="progressBar"></div></div>
+      </div>
+      <div class="question" id="questionText"></div>
+      <div class="choices" id="choices"></div>
+      <div class="message" id="messageArea">がんばってね！</div>
+    </section>
+  </main>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <section class="celebration" id="celebration">
+    <h2 class="celebrate-title">とらのすけくん 11歳おめでとう！</h2>
+    <p class="celebrate-text">長崎旅行、最高に楽しもうね！11歳の1年も素敵なカメラ日和になりますように！</p>
+    <div class="video-wrap">
+      <video id="celebrationVideo" src="celebration.mp4" controls playsinline muted></video>
+      <button class="play-btn" id="playBtn">動画を再生する</button>
+    </div>
+  </section>
+
+  <script>
+    const questions = [
+      {
+        text: "ゲーム：カービィ最新作で、吸い込んで形が変わる能力の名前は？",
+        choices: ["コピー能力", "ホバリング", "ほおばりヘンケイ"],
+        answer: 2,
+        hint: "ヒント：車や三角すいに変身するよ！"
+      },
+      {
+        text: "ドラえもん：撮るとそっくりの人形が作れる道具は？",
+        choices: ["インスタントミニチュア製造カメラ", "きせかえカメラ", "ポラロイドカメラ"],
+        answer: 0,
+        hint: "ヒント：名前に“ミニチュア”が入っているよ！"
+      },
+      {
+        text: "クラゲ：クラゲの体の何％以上が水でできている？",
+        choices: ["80%", "90%", "95%"],
+        answer: 2,
+        hint: "ヒント：ほとんど水！"
+      },
+      {
+        text: "長崎グルメ：とらのすけくんが長崎で食べたいと言っていた、中国の料理をヒントに作られた料理は？",
+        choices: ["カステラ", "ちゃんぽん", "トルコライス"],
+        answer: 1,
+        hint: "ヒント：麺料理だよ！",
+        explanation: "明治時代に中国の留学生のために作られたのが始まりなんだよ！"
+      },
+      {
+        text: "島原城：島原城の天守閣は5階建てですが、屋根の数はいくつある？",
+        choices: ["3つ", "5つ", "7つ"],
+        answer: 1,
+        hint: "ヒント：各階に屋根があるよ！",
+        explanation: "各階に屋根がある『5層5階』という珍しい造りなんだよ！"
+      },
+      {
+        text: "島原城（難問）：石垣にある、壁を屏風のように折れ曲がらせた形の名前は？",
+        choices: ["算木積み", "屏風折", "狭間"],
+        answer: 1,
+        hint: "ヒント：屏風のように折れる形だよ！",
+        explanation: "お城を守るための工夫なんだ！これでお城博士だね！"
+      }
+    ];
+
+    const praise = ["正解！すごい！", "やったね！", "大正解！", "かしこい！", "お見事！"];
+    const cheer = ["おしい！もう一回いこう！", "がんばって！", "ヒントを見てチャレンジ！", "あと少し！", "いい調子！"];
+
+    let current = 0;
+
+    const questionText = document.getElementById("questionText");
+    const choicesEl = document.getElementById("choices");
+    const messageArea = document.getElementById("messageArea");
+    const progressText = document.getElementById("progressText");
+    const progressBar = document.getElementById("progressBar");
+    const celebration = document.getElementById("celebration");
+    const quizCard = document.getElementById("quizCard");
+    const video = document.getElementById("celebrationVideo");
+    const playBtn = document.getElementById("playBtn");
+
+    function renderQuestion() {
+      const q = questions[current];
+      questionText.textContent = q.text;
+      choicesEl.innerHTML = "";
+      q.choices.forEach((choice, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.textContent = `${String.fromCharCode(65 + idx)}: ${choice}`;
+        btn.addEventListener("click", () => handleAnswer(idx));
+        choicesEl.appendChild(btn);
+      });
+      progressText.textContent = `${current + 1} / ${questions.length}`;
+      progressBar.style.width = `${((current) / questions.length) * 100}%`;
+      messageArea.textContent = "がんばってね！";
+    }
+
+    function handleAnswer(idx) {
+      const q = questions[current];
+      if (idx === q.answer) {
+        const praiseMsg = praise[Math.floor(Math.random() * praise.length)];
+        messageArea.textContent = q.explanation ? `${praiseMsg} ${q.explanation}` : praiseMsg;
+        setTimeout(() => {
+          current += 1;
+          if (current >= questions.length) {
+            finishQuiz();
+          } else {
+            renderQuestion();
+          }
+        }, 800);
+      } else {
+        const cheerMsg = cheer[Math.floor(Math.random() * cheer.length)];
+        messageArea.textContent = `${cheerMsg} ${q.hint}`;
+      }
+    }
+
+    function finishQuiz() {
+      quizCard.style.display = "none";
+      celebration.classList.add("show");
+      startConfetti();
+      // Autoplay attempt (muted) for devices that allow it
+      video.muted = true;
+      video.play().catch(() => {});
+    }
+
+    playBtn.addEventListener("click", () => {
+      video.muted = false;
+      video.play();
+    });
+
+    // Confetti
+    const canvas = document.getElementById("confettiCanvas");
+    const ctx = canvas.getContext("2d");
+    let confetti = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function createConfettiPiece() {
+      const colors = ["#ff7fc4", "#ffd86b", "#3bb4ff", "#6fe7ff", "#ffffff"];
+      return {
+        x: Math.random() * canvas.width,
+        y: -20,
+        w: 6 + Math.random() * 6,
+        h: 10 + Math.random() * 10,
+        vx: -1 + Math.random() * 2,
+        vy: 2 + Math.random() * 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rot: Math.random() * Math.PI
+      };
+    }
+
+    function startConfetti() {
+      confetti = Array.from({ length: 140 }, createConfettiPiece);
+      requestAnimationFrame(updateConfetti);
+    }
+
+    function updateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += 0.05;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+
+        if (p.y > canvas.height + 20) {
+          p.x = Math.random() * canvas.width;
+          p.y = -10;
+        }
+      });
+      requestAnimationFrame(updateConfetti);
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>

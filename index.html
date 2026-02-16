@@ -381,18 +381,6 @@
       /* Remove bottom space */
     }
 
-    .play-btn {
-      margin-top: 12px;
-      padding: 10px 18px;
-      border: none;
-      background: var(--pink);
-      color: white;
-      font-size: 16px;
-      border-radius: 999px;
-      cursor: pointer;
-      box-shadow: 0 10px 18px rgba(255, 127, 196, 0.35);
-    }
-
     .video-link {
       display: inline-block;
       margin-top: 10px;
@@ -926,10 +914,6 @@
         margin-top: 12px;
       }
 
-      .play-btn {
-        font-size: 14px;
-        padding: 8px 14px;
-      }
     }
   </style>
 </head>
@@ -1073,9 +1057,7 @@
     </h2>
     <p class="celebrate-text">長崎旅行、最高に楽しもうね！11歳の1年も素敵な年になりますように！</p>
     <div class="video-wrap" id="videoWrap">
-      <video id="celebrationVideo" src="celebration.mp4" controls playsinline webkit-playsinline preload="metadata"></video>
-      <button class="play-btn" id="playBtn">動画を再生する</button>
-      <a class="video-link" href="celebration.mp4" target="_blank" rel="noopener">再生できないときは動画を開く</a>
+      <a class="video-link" href="celebration.mp4" target="_blank" rel="noopener">ここをクリックしてね！</a>
     </div>
   </section>
 
@@ -1135,9 +1117,7 @@
     const progressBar = document.getElementById("progressBar");
     const celebration = document.getElementById("celebration");
     const quizCard = document.getElementById("quizCard");
-    const video = document.getElementById("celebrationVideo");
     const videoWrap = document.getElementById("videoWrap");
-    const playBtn = document.getElementById("playBtn");
     let autoAdvanceTimer = null;
 
     function renderQuestion() {
@@ -1201,24 +1181,8 @@
       }, 1500);
       setTimeout(() => {
         videoWrap.classList.add("show");
-        // モバイルの自動再生制限を避けるため、ユーザー操作で再生する
-        video.pause();
-        video.currentTime = 0;
-        video.muted = false;
-        playBtn.style.display = "inline-block";
       }, 1800);
     }
-
-    playBtn.addEventListener("click", async () => {
-      try {
-        video.muted = false;
-        video.currentTime = 0;
-        await video.play();
-        playBtn.style.display = "none";
-      } catch {
-        window.open("celebration.mp4", "_blank", "noopener");
-      }
-    });
 
     nextBtn.addEventListener("click", () => {
       clearTimeout(autoAdvanceTimer);

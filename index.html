@@ -393,6 +393,15 @@
       box-shadow: 0 10px 18px rgba(255, 127, 196, 0.35);
     }
 
+    .video-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--sea-deep);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
     #confettiCanvas {
       position: fixed;
       inset: 0;
@@ -1064,8 +1073,9 @@
     </h2>
     <p class="celebrate-text">長崎旅行、最高に楽しもうね！11歳の1年も素敵な年になりますように！</p>
     <div class="video-wrap" id="videoWrap">
-      <video id="celebrationVideo" src="celebration.mp4" controls playsinline preload="auto"></video>
+      <video id="celebrationVideo" src="celebration.mp4" controls playsinline webkit-playsinline preload="metadata"></video>
       <button class="play-btn" id="playBtn">動画を再生する</button>
+      <a class="video-link" href="celebration.mp4" target="_blank" rel="noopener">再生できないときは動画を開く</a>
     </div>
   </section>
 
@@ -1191,21 +1201,23 @@
       }, 1500);
       setTimeout(() => {
         videoWrap.classList.add("show");
-        // まず音声付きで再生を試みる
+        // モバイルの自動再生制限を避けるため、ユーザー操作で再生する
+        video.pause();
+        video.currentTime = 0;
         video.muted = false;
-        video.play().catch(() => {
-          // ブラウザが音声付き自動再生をブロックした場合、ミュートで再生
-          video.muted = true;
-          video.play().catch(() => { });
-        });
+        playBtn.style.display = "inline-block";
       }, 1800);
     }
 
-    playBtn.addEventListener("click", () => {
-      video.muted = false;
-      video.currentTime = 0;
-      video.play();
-      playBtn.style.display = "none";
+    playBtn.addEventListener("click", async () => {
+      try {
+        video.muted = false;
+        video.currentTime = 0;
+        await video.play();
+        playBtn.style.display = "none";
+      } catch {
+        window.open("celebration.mp4", "_blank", "noopener");
+      }
     });
 
     nextBtn.addEventListener("click", () => {
